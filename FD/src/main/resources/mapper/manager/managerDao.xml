@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fd.dao.ManagerDao">
+	<select id="findLoginId" resultType="com.fd.pojo.Manager">
+		select id,job_number as
+		jobNumber,name,phone,nick_name as nickName,login_id as
+		loginId,password,address,club_id as clubId,create_time as createTime
+		from manager where login_id=#{loginId}
+	</select>
+	<update id="updatePassword">
+		update manager set password=#{pwd} where
+		login_id=#{loginId}
+	</update>
+	<insert id="addManager">
+		INSERT INTO `fd`.`manager` (`job_number`,
+		`name`, `phone`, `nick_name`, `login_id`, `password`, `address`,
+		`club_id`, `create_time`) VALUES
+		(#{jobNumber},#{name},#{phone},#{nickName},#{loginId},#{password},#{address},#{clubId},#{createTime});
+	</insert>
+	<select id="findManagerById" resultType="com.fd.pojo.Manager">
+		select id,job_number as
+		jobNumber,name,phone,nick_name as nickName,login_id as
+		loginId,password,address,club_id as clubId,create_time as createTime
+		from manager where id=#{id}
+	</select>
+	<delete id="deleteManagerById">
+		delete from manager where id=#{id}
+	</delete>
+	<select id="findManager" resultType="com.fd.pojo.Manager">
+		select id,job_number as
+		jobNumber,name,phone,nick_name as nickName,login_id as
+		loginId,password,address,club_id as clubId,create_time as createTime
+		from manager
+	</select>
+	<update id="updateManagerById">
+		UPDATE `fd`.`manager` SET  `job_number`=#{manager.jobNumber},
+		`name`=#{manager.name}, `phone`=#{manager.phone}, `nick_name`=#{manager.nickName},
+		`login_id`=#{manager.loginId},
+		`address`=#{manager.address}, `club_id`=#{manager.clubId}
+		WHERE (`id`=#{id});
+	</update>
+	<select id="findManagerByJobNumOrName" resultType="com.fd.pojo.Manager">
+		select id,job_number as
+		jobNumber,name,phone,nick_name as nickName,login_id as
+		loginId,password,address,club_id as clubId,create_time as createTime
+		from manager
+		<where>
+			<if test="name !=null">
+				and name like "%"#{name}"%"
+			</if>
+			<if test="jobNumber !=null">
+				and job_number like "%"#{jobNumber}"%"
+			</if>
+		</where>
+	</select>
+</mapper>
+

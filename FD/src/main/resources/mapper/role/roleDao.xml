@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fd.dao.RoleDao">
+	<select id="findAllRole" resultType="com.fd.pojo.Role">
+		select id,name,create_time as createTime from role;
+	</select>
+	<select id="findPermission" resultType="com.fd.pojo.Permission">
+		select id,name from permission;
+	</select>
+	<select id="findRolePermissionByRoleId" resultType="com.fd.vo.RolePermissionVo">
+		select permission_id as permissionId,role_id as roleId from permission_role where role_id=#{id}
+	</select>
+	<select id="findPermissionByRidAndPid" resultType="int">
+		select count(*) from permission_role where role_id=#{roleId} and permission_id=#{permissionId}
+	</select>
+	<delete id="deletePermissionByRoleId">
+		delete from permission_role where role_id=#{roleId} and permission_id=#{permissionId}
+	</delete>
+	<insert id="insertPermissionByRoleId">
+		INSERT INTO permission_role (permission_id, role_id) VALUES (#{permissionId}, #{roleId});
+	</insert>
+	<select id="findRoleById" resultType="com.fd.pojo.Role">
+		select id,name,create_time as createTime from role where id=#{roleId};
+	</select>
+	<delete id="deletePermission">
+		delete from permission_role where role_id=#{roleId}
+	</delete>
+	<delete id="deleteRole">
+		delete from role where id=#{roleId}
+	</delete>
+	<update id="updateRoleById">
+		UPDATE role SET name=#{name} WHERE id=#{id};
+	</update>
+	<insert id="addRole">
+		insert into role (name,create_time) values (#{name},#{createTime})
+	</insert>
+</mapper>
+
