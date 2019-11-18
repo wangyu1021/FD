@@ -3,14 +3,14 @@ package com.fd.util;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class OrderNumber {
+public class SID {
 	private static String date;
 
 	private static Long on =00l;
 
 	public static  Long getOrderNo() {
 
-		synchronized (OrderNumber.class){
+		synchronized (SID.class){
 
 			String str = new SimpleDateFormat("yyMMddHHmm").format(new Date()); //当前时间
 

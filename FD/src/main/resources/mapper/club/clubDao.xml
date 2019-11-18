@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fd.dao.ClubDao">
+    <select id="findAllClub" resultType="com.fd.pojo.Club">
+        select id,name,manager_name as managerName,manager_phone as managerPhone,site_num as siteNum,colonel_num as colonelNum,area,address,time_id as timeId,motion_type as motionType,capacity,create_time as createTime,status from club;
+    </select>
+    <insert id="addClub">
+        INSERT INTO club (name, manager_name, manager_phone, site_num, colonel_num, area, address, time_id, motion_type, capacity, create_time) VALUES (
+            #{name},#{managerName},#{managerPhone},#{siteNum},#{colonelNum},#{area},#{address},#{timeId},#{motionType},#{capacity},#{createTime}
+        );
+    </insert>
+    <select id="findClubByCondition" resultType="com.fd.pojo.Club">
+        select id,name,manager_name as managerName,manager_phone as managerPhone,site_num as siteNum,colonel_num as
+        colonelNum,area,address,time_id as timeId,motion_type as motionType,capacity,create_time as createTime,status
+        from club
+        <where>
+            <if test="area !=null">
+                and area like "%"#{area}"%"
+            </if>
+            <if test="name !=null">
+                and name like "%"#{name}"%"
+            </if>
+            <if test="motionType !=null">
+                and motion_type=#{motionType}
+            </if>
+            <if test="timeId !=null">
+                and time_id=#{timeId}
+            </if>
+            <if test="managerPhone !=null">
+                and manager_phone like "%"#{managerPhone}"%"
+            </if>
+            <if test="address !=null">
+                and address like "%"#{address}"%"
+            </if>
+            <if test="managerName !=null">
+                and manager_name like "%"#{managerName}"%"
+            </if>
+        </where>
+    </select>
+    <select id="findClubById" resultType="com.fd.pojo.Club">
+         select id,name,manager_name as managerName,manager_phone as managerPhone,site_num as siteNum,colonel_num as
+        colonelNum,area,address,time_id as timeId,motion_type as motionType,capacity,create_time as createTime,status
+        from club where id=#{id}
+    </select>
+
+    <update id="updateClubById">
+        UPDATE `fd`.`club` SET `name`=#{name}, `manager_name`=#{managerName}, `manager_phone`=#{managerPhone}, `area`=#{area}, `address`=#{address}, `motion_type`=#{motionType}, `capacity`=#{capacity} WHERE (`id`=#{id});
+    </update>
+    <delete id="deleteClubById">
+        delete from club where id=#{id}
+    </delete>
+    <update id="updateStatus">
+        update club set status=#{status} where id=#{id}
+    </update>
+    <update id="updateSiteNum">
+        update club set site_num=#{num} where id=#{clubId}
+    </update>
+    <update id="updateColonelNum">
+        update club set colonel_num=#{num} where id=#{clubId}
+    </update>
+    <select id="findStatus" resultType="string">
+        select status from club where id=#{id}
+    </select>
+    <select id="findClubSiteById" resultType="com.fd.pojo.ClubSite">
+        select id,club_id as clubId,address from clubsite where club_id=#{id}
+    </select>
+</mapper>
+

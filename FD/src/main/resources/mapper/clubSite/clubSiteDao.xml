@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fd.dao.ClubSiteDao">
+    <select id="findClubSiteByClubId" resultType="com.fd.pojo.ClubSite">
+        select id,club_id as clubId,address from clubSite where club_id=#{clubId}
+    </select>
+    <select id="findCountByClubId" resultType="int">
+        select count(*) from clubSite where club_id=#{clubId}
+    </select>
+    <insert id="addAddress">
+        INSERT INTO clubSite (club_id, address) VALUES (#{clubId},#{address});
+    </insert>
+</mapper>
+
