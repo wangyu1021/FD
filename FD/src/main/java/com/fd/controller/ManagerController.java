@@ -2,9 +2,9 @@ package com.fd.controller;
 
 import java.util.List;
 
+import com.fd.annotation.ServerLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,18 +25,20 @@ import io.swagger.annotations.ApiOperation;
 public class ManagerController {
 	@Autowired
 	private ManagerService managerService;
-	
+
+	@ServerLog("登录了该系统")
 	@RequestMapping("login.do")
 	@ResponseBody
-	@ApiOperation(value = "登录",notes="账号为Manager，密码为Manager", httpMethod = "POST", response = JsonResult.class)
+	@ApiOperation(value = "登录",notes="账号为admin，密码为admin", httpMethod = "POST", response = JsonResult.class)
 	public JsonResult login(@RequestBody ManagerVo Manager) {
 		JsonResult json=new JsonResult();
 		try {
 			String loginId=Manager.getLoginId();
 			String password=Manager.getPassword();
-			managerService.login(loginId,password);
+			String token=managerService.login(loginId,password);
 			json.setState(1);
 			json.setMessage("登录成功");
+			json.setData(token);
 		} catch (Exception e) {
 			json.setState(0);
 			json.setMessage(e.getMessage());
@@ -59,7 +61,8 @@ public class ManagerController {
 		}
 		return json;
 	}
-	
+
+	@ServerLog("添加店长")
 	@RequestMapping("addManager.do")
 	@ResponseBody
 	@ApiOperation(value = "添加店长", httpMethod = "POST", response = JsonResult.class)
@@ -75,7 +78,8 @@ public class ManagerController {
 		}
 		return json;
 	}
-	
+
+	@ServerLog("删除店长")
 	@RequestMapping("deleteManagerById.do")
 	@ResponseBody
 	@ApiOperation(value = "删除店长", httpMethod = "GET", response = JsonResult.class)
@@ -107,7 +111,8 @@ public class ManagerController {
 		}
 		return json;
 	}
-	
+
+
 	@RequestMapping("updateManager.do")
 	@ResponseBody
 	@ApiOperation(value = "修改店长信息",notes="密码不可以从在这里传过来", httpMethod = "POST", response = JsonResult.class)

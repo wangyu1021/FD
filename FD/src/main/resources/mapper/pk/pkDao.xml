@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fd.dao.PkDao">
+    <select id="findAllPk" resultType="com.fd.pojo.Pk">
+        select id,initiator_name as initiatorName,initiator_id as initiatorId,
+        group_name as groupName,group_id as groupId,address,motion_type as motionType,
+        timer,create_time as createTime,initiator_captain as initiatorCaptain,status,victory_team as victoryTeam
+        from pk
+    </select>
+    <select id="findAllPkAudit" resultType="com.fd.pojo.PkAudit">
+          select id,initiator_name as initiatorName,initiator_id as initiatorId,
+        group_name as groupName,group_id as groupId,motion_type as motionType,address,
+        timer,create_time as createTime,initiator_captain as initiatorCaptain,status
+        from pk_audit
+    </select>
+    <select id="findPkById" resultType="com.fd.pojo.Pk">
+        select id,initiator_name as initiatorName,initiator_id as initiatorId,
+        group_name as groupName,group_id as groupId,address,motion_type as motionType,
+        timer,create_time as createTime,initiator_captain as initiatorCaptain,status,victory_team as victoryTeam
+        from pk where id=#{id}
+    </select>
+    <update id="updatePkStatus">
+        update pk set status=#{status} where id=#{id}
+    </update>
+    <update id="updatePkAuditStatus">
+        update pk_audit set status=#{status} where id=#{id}
+    </update>
+    <update id="addVictoryTeam">
+        update pk set victory_team=#{victoryTeam} where id=#{id}
+    </update>
+    <insert id="addReason">
+        insert into pk_reject (audit_id,reason) values (#{auditId},#{reason});
+    </insert>
+    <insert id="addPk">
+        INSERT INTO `fd`.`pk` (`id`, `initiator_name`, `initiator_id`, `group_name`, `group_id`, `address`, `motion_type`, `timer`, `create_time`, `initiator_captain`, `status`)
+        VALUES (#{id},#{initiatorName},#{initiatorId},#{groupName},#{groupId},#{address},#{motionType},#{timer},#{createTime},#{initiatorCaptain},#{status});
+    </insert>
+    <select id="findPkByCondition" resultType="com.fd.pojo.Pk">
+        select id,initiator_name as initiatorName,initiator_id as initiatorId,
+        group_name as groupName,group_id as groupId,address,motion_type as motionType,
+        timer,create_time as createTime,initiator_captain as initiatorCaptain,status,victory_team as victoryTeam
+        from pk
+        <where>
+            <if test="address !=null">
+                and address like "%"#{address}"%"
+            </if>
+            <if test="motionType !=null">
+                and motion_type = #{motionType}
+            </if>
+            <if test="initiatorName !=null">
+                and initiator_name like "%"#{initiatorName}"%"
+            </if>
+            <if test="groupName !=null">
+                and group_name like "%"#{groupName}"%"
+            </if>
+            <if test="victoryTeam !=null">
+                and victory_team like "%"#{victoryTeam}"%"
+            </if>
+            <if test="status != null">
+                and status=#{status}
+            </if>
+            <if test="timer != null">
+                and TO_DAYS(timer) = TO_DAYS(#{timer})
+            </if>
+        </where>
+    </select>
+    <select id="findRejectByAuditId" resultType="com.fd.pojo.PkReject">
+        select id,audit_id as auditId,reason from pk_reject where audit_id=#{auditId}
+    </select>
+    <select id="findTodayPk" resultType="int">
+       select count(*) from pk where DATEDIFF(create_time,NOW())=0
+    </select>
+    <select id="findCount" resultType="int">
+        select count(*) from pk
+    </select>
+</mapper>
+

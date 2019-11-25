@@ -8,4 +8,6 @@ public interface MotionTypeDao {
     List<MotionType> findAllMotionType();
 
     MotionType findMotionTypeById(Integer id);
+
+    MotionType findMotionTypeByName(String name);
 }

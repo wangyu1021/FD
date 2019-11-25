@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fd.dao.AdminDao">
+    <insert id="insertOperation">
+        insert into service_log (name,ip,operation,create_time) values (#{name},#{ip},#{operation},#{createTime})
+    </insert>
+    <select id="findAllOperation" resultType="com.fd.pojo.Operation">
+        select name,ip,operation,create_time as createTime from service_log
+    </select>
+    <select id="findAllConfig" resultType="com.fd.pojo.Config">
+        select id,code,content,extra,create_time as createTime,update_time as updateTime from config
+    </select>
+    <select id="findConfigById" resultType="com.fd.pojo.Config">
+        select id,code,content,extra,create_time as createTime,update_time as updateTime from config where id=#{id}
+    </select>
+    <update id="updateConfigById">
+        update config set code=#{code},content=#{content},extra=#{extra},update_time=#{updateTime} where id=#{id}
+    </update>
+    <delete id="deleteConfigById">
+        delete from config where id=#{id}
+    </delete>
+    <insert id="addConfig">
+        insert into config (id,code,content,extra,create_time,update_time) values (#{id},#{code},#{content},#{extra},#{createTime},#{updateTime})
+    </insert>
+</mapper>
+

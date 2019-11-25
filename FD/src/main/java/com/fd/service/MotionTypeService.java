@@ -8,4 +8,7 @@ public interface MotionTypeService {
     List<MotionType> findAllMotionType();
 
     MotionType findMotionTypeById(Integer id);
+
+    MotionType findMotionTypeByName(String name);
 }
+

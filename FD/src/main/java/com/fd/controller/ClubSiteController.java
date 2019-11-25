@@ -1,5 +1,6 @@
 package com.fd.controller;
 
+import com.fd.annotation.ServerLog;
 import com.fd.bo.ClubSiteBo;
 import com.fd.pojo.ClubSite;
 import com.fd.pojo.JsonResult;
@@ -61,6 +62,7 @@ public class ClubSiteController {
         return  json;
     }
 
+    @ServerLog("添加场地")
     @RequestMapping("/addAddress")
     @ResponseBody
     @ApiOperation(value = "添加场地", httpMethod = "POST", response = JsonResult.class)

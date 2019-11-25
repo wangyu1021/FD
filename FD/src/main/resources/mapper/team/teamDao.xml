@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fd.dao.TeamDao">
+    <select id="findAllTeam" resultType="com.fd.pojo.Team">
+        select id,logo,name,captain,address,motion_type as motionType,captain_phone as captainPhone,player_num as playerNum,victory,lose,group_num as groupNum,pk_num as pkNum,create_time as createTime,status
+        from team
+    </select>
+    <select id="findAllTeamAudit" resultType="com.fd.pojo.TeamAudit">
+        select id,name,logo,captain,captain_phone as captainPhone,description,address,motion_type as motionType,status from team_audit
+    </select>
+    <select id="findRejectByAuditId" resultType="com.fd.pojo.Reject">
+        select id,audit_id as auditId,reason from reject where audit_id=#{id}
+    </select>
+    <select id="findTeamByCondition" resultType="com.fd.pojo.Team">
+        select id,logo,name,captain,address,motion_type as motionType,captain_phone as captainPhone,player_num as
+        playerNum,victory,lose,group_num as groupNum,pk_num as pkNum,create_time as createTime,status
+        from team
+        <where>
+            <if test="address !=null">
+                and address like "%"#{address}"%"
+            </if>
+            <if test="motionType !=null">
+                and motion_type=#{motionType}
+            </if>
+            <if test="captainPhone !=null">
+                and captain_phone like "%"#{captainPhone}"%"
+            </if>
+            <if test="victory !=null">
+                and ROUND(victory/(victory+lose),2) >#{victory}
+            </if>
+            <if test="groupNum !=null">
+                and group_num >#{groupNum}
+            </if>
+        </where>
+    </select>
+    <select id="findTeamById" resultType="com.fd.pojo.Team">
+          select id,logo,name,captain,address,motion_type as motionType,captain_phone as captainPhone,player_num as playerNum,victory,lose,group_num as groupNum,pk_num as pkNum,create_time as createTime,status
+        from team where id=#{id}
+    </select>
+    <update id="updateStatus">
+        update team set status=#{status} where id = #{id}
+    </update>
+    <insert id="addTeam">
+        insert into team (id,name,logo,captain,captain_phone,address,motion_type,create_time) values(#{id},#{name},#{logo},#{captain},#{captainPhone},#{address},#{motionType},#{createTime})
+    </insert>
+    <update id="updateTeamAuditStatus">
+        update team_audit set status=#{status} where id=#{id}
+    </update>
+    <insert id="addReject">
+        insert into reject (audit_id,reason) values(#{auditId},#{reason})
+    </insert>
+    <select id="findTodayNum" resultType="int">
+       select count(*) from team where DATEDIFF(create_time,NOW())=0
+    </select>
+
+    <select id="findCount" resultType="int">
+       select count(*) from team
+    </select>
+</mapper>
+

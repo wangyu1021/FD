@@ -31,4 +31,8 @@ public interface ClubDao {
     String findStatus(String id);
 
     List<ClubSite> findClubSiteById(String id);
+
+    Integer findTodayClubNum();
+
+    Integer findNum();
 }

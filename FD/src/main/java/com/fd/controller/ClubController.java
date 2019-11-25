@@ -1,6 +1,7 @@
 package com.fd.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.fd.annotation.ServerLog;
 import com.fd.bo.ClubBo;
 import com.fd.bo.ClubConditionBo;
 import com.fd.bo.StatusBo;
@@ -29,6 +30,7 @@ public class ClubController {
     @Autowired
     private ClubService clubService;
 
+
     @RequestMapping("findAllClub")
     @ResponseBody
     @ApiOperation(value = "查询所有俱乐部", httpMethod = "GET", response = JsonResult.class)
@@ -47,6 +49,7 @@ public class ClubController {
         return json;
     }
 
+    @ServerLog("添加俱乐部")
     @RequestMapping("/addClub")
     @ResponseBody
     @ApiOperation(value = "添加俱乐部", httpMethod = "POST", response = JsonResult.class)
@@ -64,7 +67,9 @@ public class ClubController {
         return  json;
     }
 
-    @RequestMapping("/findClubByCondition")
+
+
+    @RequestMapping("/ ")
     @ResponseBody
     @ApiOperation(value = "根据条件查询俱乐部", httpMethod = "POST", response = JsonResult.class)
     public JsonResult findClubByCondition(@RequestBody ClubConditionBo clubConditionBo){
@@ -101,6 +106,7 @@ public class ClubController {
     }
 
 
+    @ServerLog("修改俱乐部")
     @RequestMapping("/updateClubById")
     @ResponseBody
     @ApiOperation(value = "根据id修改俱乐部", httpMethod = "POST", response = JsonResult.class)
@@ -118,6 +124,7 @@ public class ClubController {
         return json;
     }
 
+    @ServerLog("删除俱乐部")
     @RequestMapping("/deleteClubById")
     @ResponseBody
     @ApiOperation(value = "根据id删除俱乐部", httpMethod = "GET", response = JsonResult.class)
@@ -136,6 +143,7 @@ public class ClubController {
     }
 
 
+    @ServerLog("修改了俱乐部状态")
     @RequestMapping("/updateStatus")
     @ResponseBody
     @ApiOperation(value = "根据id修改俱乐部状态", httpMethod = "POST", response = JsonResult.class)
@@ -154,6 +162,7 @@ public class ClubController {
     }
 
 
+    @ServerLog("冻结或解冻俱乐部")
     @RequestMapping("/findStatus")
     @ResponseBody
     @ApiOperation(value = "获取俱乐部状态", httpMethod = "GET", response = JsonResult.class)
@@ -182,6 +191,42 @@ public class ClubController {
             json.setState(1);
             json.setMessage("查询成功");
             json.setData(list);
+        }catch (Exception e){
+            e.printStackTrace();
+            json.setState(0);
+            json.setMessage(e.getMessage());
+        }
+        return json;
+    }
+
+    @RequestMapping("/findLastClubNum")
+    @ResponseBody
+    @ApiOperation(value = "获取过去创建的俱乐部数量", httpMethod = "GET", response = JsonResult.class)
+    public JsonResult findLastClubNum(){
+        JsonResult json = new JsonResult();
+        try{
+            Integer num=clubService.findLastClubNum();
+            json.setState(1);
+            json.setMessage("查询成功");
+            json.setData(num);
+        }catch (Exception e){
+            e.printStackTrace();
+            json.setState(0);
+            json.setMessage(e.getMessage());
+        }
+        return json;
+    }
+
+    @RequestMapping("/findTodayClubNum")
+    @ResponseBody
+    @ApiOperation(value = "获取今日创建俱乐部数量", httpMethod = "GET", response = JsonResult.class)
+    public JsonResult findTodayClubNum(){
+        JsonResult json = new JsonResult();
+        try{
+            Integer num=clubService.findTodayClubNum();
+            json.setState(1);
+            json.setMessage("查询成功");
+            json.setData(num);
         }catch (Exception e){
             e.printStackTrace();
             json.setState(0);

@@ -2,6 +2,7 @@ package com.fd.controller;
 
 import java.util.List;
 
+import com.fd.annotation.ServerLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -74,7 +75,8 @@ public class RoleController {
 		}
 		return json;
 	}
-	
+
+	@ServerLog("删除角色")
 	@ResponseBody
 	@RequestMapping("/deleteRole.do")
 	@ApiOperation(value = "删除角色",httpMethod = "GET",response=JsonResult.class)
@@ -90,7 +92,7 @@ public class RoleController {
 		}
 		return json;
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("/findRoleById.do")
 	@ApiOperation(value = "根据id查询角色",httpMethod = "GET",response=JsonResult.class)
@@ -107,7 +109,8 @@ public class RoleController {
 		}
 		return json;
 	}
-	
+
+	@ServerLog("修改角色名称")
 	@ResponseBody
 	@RequestMapping("/updateRoleById.do")
 	@ApiOperation(value = "修改角色名称",httpMethod = "GET",response=JsonResult.class)
@@ -123,7 +126,8 @@ public class RoleController {
 		}
 		return json;
 	}
-	
+
+	@ServerLog("添加角色")
 	@ResponseBody
 	@RequestMapping("/addRole.do")
 	@ApiOperation(value = "添加角色",httpMethod = "GET",response=JsonResult.class)

@@ -65,5 +65,11 @@
     <select id="findClubSiteById" resultType="com.fd.pojo.ClubSite">
         select id,club_id as clubId,address from clubsite where club_id=#{id}
     </select>
+    <select id="findTodayClubNum" resultType="int">
+       select count(*) from club where DATEDIFF(create_time,NOW())=0
+    </select>
+    <select id="findNum" resultType="int">
+       select count(*) from club
+    </select>
 </mapper>
 

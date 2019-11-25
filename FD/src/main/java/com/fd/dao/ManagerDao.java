@@ -53,4 +53,5 @@ public interface ManagerDao {
 	 */
 	List<Manager> findManagerByJobNumOrName(@Param("name")String name,@Param("jobNumber")String jobNumber);
 
+    void updateToken(@Param("token") String token, @Param("loginId") String loginId);
 }

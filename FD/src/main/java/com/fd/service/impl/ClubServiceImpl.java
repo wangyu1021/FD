@@ -73,4 +73,12 @@ public class ClubServiceImpl  implements ClubService {
     public List<ClubSite> findClubSiteById(String id) {
         return clubDao.findClubSiteById(id);
     }
+
+    public Integer findLastClubNum() {
+        return clubDao.findNum()-clubDao.findTodayClubNum();
+    }
+
+    public Integer findTodayClubNum() {
+        return clubDao.findTodayClubNum();
+    }
 }

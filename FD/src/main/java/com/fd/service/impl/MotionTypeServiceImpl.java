@@ -20,4 +20,8 @@ public class MotionTypeServiceImpl implements MotionTypeService {
     public MotionType findMotionTypeById(Integer id) {
         return  motionTypeDao.findMotionTypeById(id);
     }
+
+    public MotionType findMotionTypeByName(String name) {
+        return motionTypeDao.findMotionTypeByName(name);
+    }
 }

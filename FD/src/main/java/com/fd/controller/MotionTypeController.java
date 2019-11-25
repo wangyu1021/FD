@@ -56,4 +56,21 @@ public class MotionTypeController {
         }
         return json;
     }
+    @RequestMapping("/findMotionTypeByName")
+    @ResponseBody
+    @ApiOperation(value = "根据运动名查询运动类型", httpMethod = "GET",response = JsonResult.class)
+    public JsonResult findMotionTypeByName(String name){
+        JsonResult json=new JsonResult();
+        try{
+            MotionType motionType=motionTypeServicel.findMotionTypeByName(name);
+            json.setState(1);
+            json.setMessage("查询成功");
+            json.setData(motionType);
+        }catch ( Exception e){
+            e.printStackTrace();
+            json.setState(0);
+            json.setMessage(e.getMessage());
+        }
+        return json;
+    }
 }

@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.List;
 
+import com.fd.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,13 +14,16 @@ import com.fd.pojo.Manager;
 import com.fd.service.ManagerService;
 import com.fd.util.MD5Encoder;
 
+import javax.annotation.Resource;
+
 @Service
 public class ManagerServiceImpl implements ManagerService{
-	@Autowired
+	@Resource
 	private ManagerDao managerDao;
 
-	public void login(String loginId, String password) {
+	public String login(String loginId, String password) {
 		Manager Manager=managerDao.findLoginId(loginId);
+		String token=TokenUtil.createTKN();
 		if(Manager==null) {
 			throw new RuntimeException("该账户不存在");
 		}
@@ -27,6 +31,7 @@ public class ManagerServiceImpl implements ManagerService{
 			if(!MD5Encoder.validPassword(password, Manager.getPassword())){
 				throw new RuntimeException("密码错误");
 			}
+			managerDao.updateToken(token,loginId);
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 			throw new RuntimeException("出了一点点小错误");
@@ -34,6 +39,7 @@ public class ManagerServiceImpl implements ManagerService{
 			e.printStackTrace();
 			throw new RuntimeException("出了一点点小错误");
 		}
+		return token;
 	}
 
 	public void updatePassword(String loginId, String newPassword,String oldPassword) {

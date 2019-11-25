@@ -6,7 +6,7 @@ import com.fd.pojo.Manager;
 
 public interface ManagerService {
 
-	void login(String loginId, String password);
+	String login(String loginId, String password);
 
 	void updatePassword(String loginId, String password, String oldPassword);
 
@@ -21,6 +21,5 @@ public interface ManagerService {
 	Manager findManagerById(Integer id);
 
 	List<Manager> findManagerByJobNumOrName(String name, String jobNumber);
-
 
 }

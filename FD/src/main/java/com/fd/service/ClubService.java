@@ -30,4 +30,8 @@ public interface ClubService {
     String findStauts(String id);
 
     List<ClubSite> findClubSiteById(String id);
+
+    Integer findLastClubNum();
+
+    Integer findTodayClubNum();
 }

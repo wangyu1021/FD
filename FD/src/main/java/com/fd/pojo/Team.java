@@ -1,12 +1,13 @@
 package com.fd.pojo;
 
+import io.swagger.models.auth.In;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
 public class Team {
-    private Integer id;
+    private String id;
     /**
      * 战队logo
      */
@@ -55,4 +56,8 @@ public class Team {
      * 创建时间
      */
     private Date createTime;
+    /**
+     * 状态
+     */
+    private Integer status;
 }

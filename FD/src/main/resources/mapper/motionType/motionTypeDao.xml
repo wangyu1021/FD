@@ -8,6 +8,9 @@
     <select id="findMotionTypeById" resultType="com.fd.pojo.MotionType">
         select id , name from motiontype where id=#{id}
     </select>
+    <select id="findMotionTypeByName" resultType="com.fd.pojo.MotionType">
+        select id , name from motiontype where name=#{name}
+    </select>
 
 </mapper>
 
