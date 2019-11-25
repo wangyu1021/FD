@@ -2,14 +2,14 @@
   <div>
     <div>
       <i class="el-icon-search"></i>
-      <span>地址:</span>
+      <span>PK地区:</span>
       <el-cascader clearable
                    size="large"
                    :options="options"
                    v-model="selectedOptions"
                    @change="handleChange(options,selectedOptions)">
       </el-cascader>
-      <span style="font-size: 12px">运动类型:</span>
+      <span style="margin-left: 24px" >运动类型:</span>
       <el-select clearable v-model="motionTypeId" placeholder="请选择">
         <el-option
           v-for="item in motionType"
@@ -18,8 +18,29 @@
           :value="item.id">
         </el-option>
       </el-select>
-      <span>手机号：</span>
-      <el-input v-model="phone" style="width:204.6px" placeholder="请输入"></el-input>
+      <span style="margin-left: 29px" >状态：</span>
+      <el-select clearable v-model="status" placeholder="请选择">
+        <el-option
+          v-for="item in statuss"
+          :key="item.id"
+          :label="item.name"
+          :value="item.id">
+        </el-option>
+      </el-select>
+      <span class="demonstration">日期：</span>
+      <el-date-picker
+        v-model="timer"
+        value-format="yyyy-MM-dd"
+        type="date"
+        placeholder="选择日期">
+      </el-date-picker><br>
+      <span style="margin-left: 9px">发起战队:</span>
+      <el-input style="width: 221px;" v-model="initiatorName" placeholder="请输入内容"></el-input>
+      <span style="margin-left: 9px">被挑战战队:</span>
+      <el-input style="width: 221px;" v-model="groupName" placeholder="请输入内容"></el-input>
+      <span style="margin-left: 9px">获胜战队:</span>
+      <el-input style="width: 221px;" v-model="victoryTeam" placeholder="请输入内容"></el-input>
+      <span style="margin-left: 100px" ></span>
       <el-button style="width: 40px;padding: 7px 9px;" type="primary" size="mini"
                  @click="slotTeam">搜索
       </el-button>
@@ -31,19 +52,19 @@
         border
         style="width: 100%">
         <el-table-column
-          prop="name"
-          label="战队名称"
+          prop="initiatorName"
+          label="发起战队"
           width="250">
         </el-table-column>
         <el-table-column
-          prop="captain"
-          label="队长"
+          prop="initiatorCaptain"
+          label="发起队长"
           width="150">
         </el-table-column>
         <el-table-column
-          prop="captainPhone"
-          label="队长手机号"
-          width="150">
+          prop="groupName"
+          label="被挑战战队"
+          width="250">
         </el-table-column>
         <el-table-column
           prop="motionType"
@@ -53,67 +74,47 @@
         <el-table-column
           prop="address"
           label="地址"
-          width="280">
+          width="180">
         </el-table-column>
         <el-table-column
-          prop="createTime"
-          label="创建时间"
+          prop="timer"
+          label="PK时间"
           width="200">
+        </el-table-column>
+        <el-table-column
+          label="获胜战队"
+          width="124">
+          <template slot-scope="scope">
+            <div v-if="!scope.row.victoryTeam">
+              敬请期待
+            </div>
+            <div v-else>
+               <span>
+              {{scope.row.victoryTeam}}
+              </span>
+            </div>
+          </template>
         </el-table-column>
         <el-table-column
           label="状态"
           width="100">
           <template slot-scope="scope">
-            <el-button type="text" @click="updateStatus(scope.row.id)" size="small"><span :id="scope.row.id"></span>
+            <el-button type="text" @click="updateStatus(scope.row.id)"
+                       :disabled="scope.row.status==2 || scope.row.status==3 || scope.row.status==4 " size="medium">
+              <span :id="scope.row.id"></span>
             </el-button>
           </template>
         </el-table-column>
-        <el-table-column
-          fixed="right"
-          label="操作"
-          width="100">
-          <template slot-scope="scope">
-            <el-button @click="openDialog(scope.row.id,scope.row.status)" type="text" size="small">详情</el-button>
-          </template>
-        </el-table-column>
       </el-table>
-      <el-dialog class="dialogForm" title="战队信息" :visible.sync="dialogForm">
-        <el-table
-          :data="form"
-          border
-          style="width: 100%">
-          <el-table-column
-            prop="logo"
-            label="战队LOGO"
-            width="110">
-            <el-avatar shape="square" :size="50" :src="ImageURL"></el-avatar>
-          </el-table-column>
-          <el-table-column
-            prop="name"
-            label="战队名称"
-            width="150">
-          </el-table-column>
-          <el-table-column
-            prop="groupNum"
-            label="成长值">
-          </el-table-column>
-          <el-table-column
-            prop="victory"
-            label="胜场">
-          </el-table-column>
-          <el-table-column
-            prop="lose"
-            label="败场">
-          </el-table-column>
-          <el-table-column
-            prop="rate"
-            label="胜率">
-          </el-table-column>
-          <el-table-column
-            prop="pkNum"
-            label="总场次">
-          </el-table-column>
-        </el-table>
+      <el-dialog class="dialogForm" title="选择获胜战队" :visible.sync="dialogVictory" width="18%">
+        <el-select v-model="victory" placeholder="请选择获胜战队">
+          <el-option :label="form.initiatorName" :value="form.initiatorName"></el-option>
+          <el-option :label="form.groupName" :value="form.groupName"></el-option>
+        </el-select>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogVictory = false">取 消</el-button>
+          <el-button type="primary" @click="addVictoryTeam(form.id)">确 定</el-button>
+        </div>
       </el-dialog>
     </div>
   </div>
@@ -149,14 +150,40 @@
             return {
                 tableData: [],
                 motionType: [],
-                dialogForm: false,
-                form: [],
-                ImageURL: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
+                form: {},
                 selectedOptions: [],
                 options: regionData,
                 areaAddress: '',
-                motionTypeId:'',
-                phone:''
+                motionTypeId: '',
+                dialogVictory: false,
+                victory: '',
+                status: '',
+                timer:'',
+                statuss:[
+                    {
+                        id:0,
+                        name:'未开始'
+                    },
+                    {
+                        id:1,
+                        name:'进行中'
+                    },
+                    {
+                        id:2,
+                        name:'已结束'
+                    },
+                    {
+                        id:3,
+                        name:'备战中'
+                    },
+                    {
+                        id:4,
+                        name:'拒绝挑战'
+                    }
+                ],
+                initiatorName:'',
+                groupName:'',
+                victoryTeam:''
             }
         },
         created() {
@@ -188,7 +215,7 @@
             initTable() {
                 let that = this;
                 $.ajax({
-                    url: 'http://localhost/FD/team/findAllTeam',
+                    url: 'http://localhost/FD/pk/findAllPk',
                     type: 'GET',
                     dataType: 'json',
                     contentType: 'application/json;charset=utf-8',
@@ -197,7 +224,8 @@
                         if (data.state == 1) {
                             for (let i = 0; i < data.data.length; i++) {
                                 let obj = data.data[i];
-                                obj.createTime = getMyDate(obj.createTime);
+                                obj.timer = getMyDate(obj.timer);
+                                obj.createTime = getMyDate(obj.createTime)
                                 that.StatusText(obj);
                                 obj.motionType = that.findMotionType(obj.motionType);
                                 that.tableData.push(obj)
@@ -213,9 +241,15 @@
             StatusText(obj) {
                 setTimeout(function () {
                     if (obj.status == 0) {
-                        document.getElementById(obj.id).innerText = "解冻";
+                        document.getElementById(obj.id).innerText = "备战中";
+                    } else if (obj.status == 1) {
+                        document.getElementById(obj.id).innerText = "进行中";
+                    } else if (obj.status == 2) {
+                        document.getElementById(obj.id).innerText = "已结束";
+                    } else if (obj.status == 3) {
+                        document.getElementById(obj.id).innerText = "待接受";
                     } else {
-                        document.getElementById(obj.id).innerText = "冻结";
+                        document.getElementById(obj.id).innerText = "拒绝挑战";
                     }
                 }, 300)
             },
@@ -223,27 +257,29 @@
                 let that = this;
                 let status;
                 let a = document.getElementById(id).innerText;
-                if (a === "解冻") {
+                if (a === "未开始") {
                     status = 1
-                } else if (a === "冻结") {
-                    status = 0
-                }
-                $.ajax({
-                    url: 'http://localhost/FD/team/updateStatus',
-                    type: 'GET',
-                    data: "id=" + id + "&status=" + status,
-                    dataType: 'json',
-                    contentType: 'application/json;charset=utf-8',
-                    async: false,
-                    success: function (data) {
-                        if (data.state == 1) {
-                            that.$router.go('/clubList')
-                        } else {
-                            Message.error({
-                                message: '请检查网络是否连接'
-                            })
-                        }
+                    let form = {
+                        id: id,
+                        status: status
                     }
+                    that.statusUtil(form);
+                } else if (a === "进行中") {
+                    that.addVictory(id);
+                }
+
+            },
+            addVictory(id) {
+                let that = this;
+                that.$confirm('PK是否结束', '提示', {
+                    confirmButtonText: '是',
+                    cancelButtonText: '否',
+                    type: 'warning'
+                }).then(() => {
+                    that.dialogVictory = true;
+                    that.findPkById(id);
+                }).catch(() => {
+
                 });
             },
             findMotionType(id) {
@@ -267,32 +303,19 @@
                 });
                 return motionType;
             },
-            openDialog(id, status) {
+            findPkById(id) {
                 let that = this;
-                if (status == 0) {
-                    Message.error({
-                        message: '冻结中，无法进行其他操作'
-                    })
-                    return;
-                }
-                that.dialogForm = true;
                 $.ajax({
-                    url: 'http://localhost/FD/team/findTeamById',
+                    url: 'http://localhost/FD/pk/findPkById',
                     type: 'GET',
                     data: "id=" + id,
                     dataType: 'json',
                     contentType: 'application/json;charset=utf-8',
                     async: false,
                     success: function (data) {
-                        that.form = []
+                        that.form = {}
                         if (data.state == 1) {
-                            that.form.push(data.data);
-                            if (that.form[0].pkNum != 0) {
-                                that.form[0].rate = ((that.form[0].victory / that.form[0].pkNum).toFixed(2) * 100) + "%"
-                            } else {
-                                that.form[0].rate = 0
-                            }
-                            console.log(that.form)
+                            that.form = data.data;
                         } else {
                             Message.error({
                                 message: '请检查网络是否连接'
@@ -311,15 +334,19 @@
                 district = CodeToText[res[2]];
                 that.areaAddress = province + city + district
             },
-            slotTeam(){
+            slotTeam() {
                 let that = this;
-                let form={
-                    address:that.areaAddress,
-                    captainPhone: that.phone,
+                let form = {
+                    address: that.areaAddress,
                     motionType: that.motionTypeId,
+                    status: that.status,
+                    timer:that.timer,
+                    initiatorName:that.initiatorName,
+                    groupName:that.groupName,
+                    victoryTeam:that.victoryTeam
                 }
                 $.ajax({
-                    url: 'http://localhost/FD/team/findTeamByCondition',
+                    url: 'http://localhost/FD/pk/findPkByCondition',
                     type: 'POST',
                     data: JSON.stringify(form),
                     dataType: 'json',
@@ -346,12 +373,60 @@
             resetSolt() {
                 let that = this;
                 that.areaAddress = '';
-                that.selectedOptions='';
-                that.motionTypeId='';
+                that.selectedOptions = '';
+                that.motionTypeId = '';
                 that.tableData = [];
-                that.phone='';
+                that.status = '';
+                that.timer='';
+                that.initiatorName='';
+                that.groupName='';
+                that.victoryTeam='';
                 that.initTable();
-            }
+            },
+            addVictoryTeam(id) {
+                let that = this;
+                $.ajax({
+                    url: 'http://localhost/FD/pk/addVictoryTeam',
+                    type: 'GET',
+                    data: "id=" + id + "&victoryTeam=" + that.victory,
+                    dataType: 'json',
+                    contentType: 'application/json;charset=utf-8',
+                    async: false,
+                    success: function (data) {
+                        if (data.state == 1) {
+                            let form = {
+                                id: id,
+                                status: 2
+                            }
+                            that.statusUtil(form)
+                        } else {
+                            Message.error({
+                                message: '请检查网络是否连接'
+                            })
+                        }
+                    }
+                });
+            },
+            statusUtil(form) {
+                let that = this;
+                $.ajax({
+                    url: 'http://localhost/FD/pk/updatePkStatus',
+                    type: 'POST',
+                    data: JSON.stringify(form),
+                    dataType: 'json',
+                    contentType: 'application/json;charset=utf-8',
+                    async: false,
+                    success: function (data) {
+                        if (data.state == 1) {
+                            that.$router.go("/pkList")
+                        } else {
+                            Message.error({
+                                message: '请检查网络是否连接'
+                            })
+                        }
+                    }
+                });
+            },
 
         }
     }

@@ -1,5 +1,23 @@
 <template>
   <div>
+    <div class="userSlot">
+      <i class="el-icon-search"></i>
+      <span style="font-size: 12px">角色:</span>
+      <el-select v-model="roleId" placeholder="请选择">
+        <el-option
+          v-for="item in options"
+          :key="item.id"
+          :label="item.name"
+          :value="item.id">
+        </el-option>
+      </el-select>
+      <span style="font-size: 12px">手机号:</span>
+      <el-input v-model="phone" placeholder="请输入手机号" style="width:200px"></el-input>
+      <el-button style="width: 40px;padding: 7px 9px;" type="primary" size="mini"
+                 @click="soltUser(phone,roleId)">搜索
+      </el-button>
+      <el-button style="width: 40px;padding: 7px 9px;" type="primary" size="mini" @click="resertSolt">重置</el-button>
+    </div>
     <el-table
       :data="tableData"
       style="width: 100%;">
@@ -8,9 +26,6 @@
           <el-form inline label-position="left" class="demo-table-expand">
             <el-form-item label="昵称:">
               <span>{{scope.row.nickName}}</span>
-            </el-form-item>
-            <el-form-item label="手机号:">
-              <span>{{scope.row.phone}}</span>
             </el-form-item>
             <el-form-item label="邀请人:">
               <div v-if="scope.row.userId===0">
@@ -72,17 +87,17 @@
       >
       </el-table-column>
       <el-table-column
+        label="手机号"
+        prop="phone"
+      >
+      </el-table-column>
+      <el-table-column
         label="积分"
         prop="integral"
       >
       </el-table-column>
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
-          <el-button style="width: 40px;padding: 7px 9px;"
-                     size="mini"
-                     type="primary"
-                     @click="initForm(scope.row.id)">编辑
-          </el-button>
           <el-button style="width: 65px;padding: 7px 9px;"
                      size="mini"
                      type="primary"
@@ -96,16 +111,16 @@
     </el-dialog>
     <el-dialog title="详情" :visible.sync="dialogUser">
       <el-form :inline="true" ref="form" label-width="120px" :model="invite">
-        <el-form-item label="昵称:" >
+        <el-form-item label="昵称:">
           <span>{{invite.nickName}}</span>
         </el-form-item>
-        <el-form-item label="姓名:" >
+        <el-form-item label="姓名:">
           <span>{{invite.name}}</span>
         </el-form-item>
-        <el-form-item label="手机号:" >
+        <el-form-item label="手机号:">
           <span>{{invite.phone}}</span>
         </el-form-item>
-        <el-form-item label="积分:" >
+        <el-form-item label="积分:">
           <span>{{invite.integral}}</span>
         </el-form-item>
       </el-form>
@@ -145,9 +160,9 @@
                 dialogStream: false,
                 form: {},
                 dialogUser: false,
-                invite:{
+                invite: {
                     id: '',
-                    nickName:'' ,
+                    nickName: '',
                     role: '',
                     name: '',
                     phone: '',
@@ -156,15 +171,19 @@
                     integral: '',
                     growthValue: '',
                     pushMoney: '',
-                    availableIncome:'',
-                    numberTeam:'' ,
-                    captain:'' ,
+                    availableIncome: '',
+                    numberTeam: '',
+                    captain: '',
                     createTeam: ''
-                }
+                },
+                phone: '',
+                options: [],
+                roleId:''
             }
         },
         created() {
             this.initTable()
+            this.initOptions()
         },
         methods: {
             initTable() {
@@ -274,8 +293,7 @@
                     contentType: 'application/json;charset=utf-8',
                     success: function (data) {
                         if (data.state == 1) {
-                            that.invite=data.data;
-                            console.log(that.invite)
+                            that.invite = data.data;
                         } else {
                             Message.error({
                                 message: '请检查网络是否连接'
@@ -283,6 +301,39 @@
                         }
                     }
                 });
+            },
+            resertSolt() {
+                let that = this;
+                that.tableData = []
+                that.roleId = ''
+                that.phone = ''
+                that.initTable();
+            },
+            initOptions() {
+                let that = this;
+                $.ajax({
+                    url: 'http://localhost/FD/role/findAllRole.do',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        if(data.statue=1){
+                            for(let i=0;i<data.data.length;i++){
+                                let obj=data.data[i];
+                                that.options.push(obj)
+                            }
+                            console.log(that.options)
+                        }else{
+                            Message.error({
+                                message:data.message
+                            })
+                        }
+                    }
+                });
+            },
+            //查询用户
+            soltUser(phone,rId){
+                console.log(phone)
+                console.log(rId)
             }
         }
     }
@@ -302,5 +353,11 @@
     margin-right: 0;
     margin-bottom: 0;
     width: 50%;
+  }
+
+  .userSlot {
+    border-bottom: 1px #e8ecf1 solid;
+    padding-bottom: 10px;
+    padding-top: 10px;
   }
 </style>

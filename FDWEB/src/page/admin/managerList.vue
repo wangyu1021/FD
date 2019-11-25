@@ -139,7 +139,7 @@
                     <el-option v-for="item in clubs"
                                :key="item.id"
                                :value="item.id"
-                               :label="item.label"
+                               :label="item.name"
                     ></el-option>
                   </el-select>
                 </el-form-item>
@@ -201,13 +201,7 @@
                     clubId: ''
                 },
                 clubs: [
-                    {
-                        label: '广东深圳奥德赛篮球俱乐部',
-                        id: '1'
-                    }, {
-                        label: '广东深圳奥德赛足球俱乐部',
-                        id: '2'
-                    }
+
                 ],
                 manager: {
                     address: '',
@@ -220,19 +214,11 @@
                 },
                 options: regionData,
                 selectedOptions: [],
-                clubs: [
-                    {
-                        label: '广东深圳奥德赛篮球俱乐部',
-                        id: '1'
-                    }, {
-                        label: '广东深圳奥德赛足球俱乐部',
-                        id: '2'
-                    }
-                ],
                 area: ''
             }
         },
         created() {
+            this.initClub();
             this.initTable();
         },
         methods: {
@@ -266,13 +252,36 @@
                     }
                 });
             },
-            findClub(e) {
+            //初始化查询条件
+            initClub() {
+                let that = this;
+                $.ajax({
+                    url: 'http://localhost/FD/club/findAllClub.do',
+                    type: 'GET',
+                    dataType: 'json',
+                    contentType: 'application/json;charset=utf-8',
+                    success: function (data) {
+                        if (data.state == 1) {
+                            for (let i = 0; i < data.data.length; i++) {
+                                let obj = data.data[i];
+                                that.clubs.push(obj)
+                            }
+                        } else {
+                            Message.error({
+                                message: '请检查网络是否连接'
+                            })
+                        }
+                    }
+                });
+            },
+            findClub(id) {
                 //参数e为俱乐部id
                 //该方法用于查询店长所属俱乐部
-                if (e == 1) {
-                    return "广东奥赛德篮球俱乐部";
-                } else {
-                    return "广东奥赛德足球俱乐部";
+                let that = this;
+                for (let i = 0; i < that.clubs.length; i++) {
+                    if (that.clubs[i].id == id) {
+                        return that.clubs[i].name;
+                    }
                 }
             },
             deleteAdmin(e) {

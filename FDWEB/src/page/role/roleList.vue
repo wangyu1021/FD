@@ -16,11 +16,6 @@
           <el-form label-position="left" inline class="demo-table-expand">
             <el-form-item label="角色名:">
               <span>{{scope.row.name}}</span>
-              <el-button style="width: 40px;padding: 7px 9px;margin-left:20px"
-                         size="mini"
-                         type="text"
-                         @click="">{{buttonName}}
-              </el-button>
             </el-form-item>
             <el-form-item label="权限列表 :">
               <el-checkbox v-for="item in scope.row.p" v-model="item.checked" :label="item.name" :key="item.id">
@@ -74,7 +69,7 @@
     <el-dialog title="添加角色" :visible.sync="dialogRole">
       <el-form :inline="true" ref="form" label-width="120px" :model="role">
         <el-form-item label="角色名：">
-          <el-input v-model="role.name" ></el-input>
+          <el-input v-model="role.name"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -87,7 +82,7 @@
 
 <script>
     import {Message} from 'element-ui';
-    import { Notification } from 'element-ui';
+    import {Notification} from 'element-ui';
 
     function getMyDate(str) {
         let oDate = new Date(str),
@@ -114,8 +109,8 @@
         data() {
             return {
                 tableData: [],
-                role:{
-                  name:''
+                role: {
+                    name: ''
                 },
                 form: {
                     id: '',
@@ -123,9 +118,8 @@
                 },
                 permission: [],
                 rolePermission: [],
-                buttonName: '修改',
                 dialogFormVisible: false,
-                dialogRole:false
+                dialogRole: false
             }
         },
         created() {
@@ -134,9 +128,9 @@
 
         },
         methods: {
-            openAdd(){
-                let that=this;
-                that.dialogRole=true;
+            openAdd() {
+                let that = this;
+                that.dialogRole = true;
             },
             initRole() {
                 let that = this;
@@ -156,15 +150,7 @@
                                 obj.createTime = date;
                                 obj.p = JSON.parse(JSON.stringify(that.permission))
                                 if (obj.pids != null) {
-                                    for (let j = 0; j < obj.pids.length; j++) {
-                                        let id = obj.pids[j];
-                                        for (let k = 0; k < obj.p.length; k++) {
-                                            if (id == obj.p[k].id) {
-                                                obj.p[j].checked = true;
-                                                break;
-                                            }
-                                        }
-                                    }
+                                    that.isChecked(obj.p, obj.pids)
                                 }
                                 that.tableData.push(obj)
                             }
@@ -176,6 +162,17 @@
                         }
                     }
                 });
+            },
+            isChecked(p, pids) {
+                for (let j = 0; j < pids.length; j++) {
+                    let pid = pids[j];
+                    for (let k = 0; k < p.length; k++) {
+                        if (pid == p[k].id) {
+                            p[k].checked = true;
+                            break;
+                        }
+                    }
+                }
             },
             initPermision() {
                 let that = this;
@@ -228,8 +225,8 @@
                     success: function (data) {
                         if (data.state == 1) {
                             Notification.success({
-                                message:'删除成功',
-                                onClose:(that.$router.go("roleList"))
+                                message: '删除成功',
+                                onClose: (that.$router.go("roleList"))
                             })
                         } else {
                             Message.error({
@@ -265,24 +262,24 @@
                     dataType: 'json',
                     contentType: 'application/json:charset=utf-8',
                     success: function (data) {
-                        if(data.state==1){
+                        if (data.state == 1) {
                             Notification.success({
-                                message:'修改成功',
-                                onClose:(that.$router.go("roleList"))
+                                message: '修改成功',
+                                onClose: (that.$router.go("roleList"))
                             })
-                        }else{
+                        } else {
                             Message.error({
-                                message:data.message
+                                message: data.message
                             })
                         }
                     }
                 });
             },
-            addRole(role){
-                let that=this;
-                if(role.name==""||role.name==null){
+            addRole(role) {
+                let that = this;
+                if (role.name == "" || role.name == null) {
                     Message.error({
-                        message:"角色名不能为空"
+                        message: "角色名不能为空"
                     })
                     return
                 }
@@ -293,14 +290,14 @@
                     dataType: 'json',
                     contentType: 'application/json:charset=utf-8',
                     success: function (data) {
-                        if(data.state==1){
+                        if (data.state == 1) {
                             Notification.success({
-                                message:'添加成功 ',
-                                onClose:(that.$router.go("roleList"))
+                                message: '添加成功 ',
+                                onClose: (that.$router.go("roleList"))
                             })
-                        }else{
+                        } else {
                             Message.error({
-                                message:data.message
+                                message: data.message
                             })
                         }
                     }
