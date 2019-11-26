@@ -9,12 +9,24 @@
       <el-button style="width: 40px;padding: 7px 9px;" type="primary" size="mini"
                  @click="soltManager(jobNumber,username)">搜索
       </el-button>
-      <el-button style="width: 40px;padding: 7px 9px;" type="primary" size="mini" @click="resertSolt">重置</el-button>
       <el-button
-        style="width: 40px;padding: 7px 9px;"
+        style="width: 85px;padding: 7px 9px;"
         type="primary"
         size="mini"
-        @click="openAdd">添加
+        @click="soltAdmin">搜索管理员
+      </el-button>
+      <el-button style="width: 40px;padding: 7px 9px;" type="primary" size="mini" @click="resertSolt">重置</el-button>
+      <el-button
+        style="width: 75px;padding: 7px 9px;"
+        type="primary"
+        size="mini"
+        @click="addManager = true">添加店长
+      </el-button>
+      <el-button
+        style="width: 75px;padding: 7px 9px;"
+        type="primary"
+        size="mini"
+        @click="addAdmin = true">添加管理员
       </el-button>
     </div>
     <div>
@@ -90,7 +102,7 @@
                 </el-form-item>
                 <el-form-item label="所属俱乐部：">
                   <el-select v-model="form.clubId" placeholder="请选择俱乐部">
-                    <el-option v-for="item in clubs"
+                    <el-option v-for="item in club"
                                :key="item.id"
                                :value="item.id"
                                :label="item.label"
@@ -136,7 +148,7 @@
                 </el-form-item>
                 <el-form-item label="俱乐部:">
                   <el-select v-model="manager.clubId" placeholder="请选择俱乐部">
-                    <el-option v-for="item in clubs"
+                    <el-option v-for="item in club"
                                :key="item.id"
                                :value="item.id"
                                :label="item.name"
@@ -147,6 +159,45 @@
                   <el-form-item>
                     <el-button type="primary" @click="insertManager(manager)">立即创建</el-button>
                     <el-button @click="addManager = false">取消</el-button>
+                  </el-form-item>
+                </div>
+              </el-form>
+            </el-dialog>
+            <el-dialog class="dialogAdd" title="添加管理员" :visible.sync="addAdmin">
+              <el-form :inline="true" ref="form" :model="admin" label-width="120px">
+                <el-form-item label="管理员姓名:">
+                  <el-input v-model="admin.name"></el-input>
+                </el-form-item>
+                <el-form-item label="工号:">
+                  <el-input v-model="admin.jobNumber"></el-input>
+                  <el-tooltip class="item" effect="dark" content="注意工号即为登录账号" placement="right">
+                    <i class="el-icon-info"></i>
+                  </el-tooltip>
+                </el-form-item>
+                <el-form-item label="昵称:">
+                  <el-input v-model="admin.nickName"></el-input>
+                </el-form-item>
+                <el-form-item label="手机号:">
+                  <el-input v-model="admin.phone"></el-input>
+                </el-form-item>
+                <el-form-item label="登录密码:">
+                  <el-input type="password" maxlength=16 v-model="admin.password"></el-input>
+                  <el-tooltip class="item" effect="dark" content="密码不小于6位数，不大于16位数" placement="right">
+                    <i class="el-icon-info"></i>
+                  </el-tooltip>
+                </el-form-item>
+                <el-form-item label-width="101.85px" label="地址:">
+                  <el-cascader
+                    size="large"
+                    :options="options"
+                    v-model="selectedOptions"
+                    @change="handleChange(options,selectedOptions)">
+                  </el-cascader>
+                </el-form-item>
+                <div style="margin-left:275px;margin-top: 30px">
+                  <el-form-item>
+                    <el-button type="primary" @click="insertAdmin(admin)">立即创建</el-button>
+                    <el-button @click="addAdmin = false">取消</el-button>
                   </el-form-item>
                 </div>
               </el-form>
@@ -191,6 +242,7 @@
                 jobNumber: '',
                 tableData: [],
                 dialogFormVisible: false,
+                addAdmin: false,
                 form: {
                     id: '',
                     jobNumber: '',
@@ -200,12 +252,19 @@
                     phone: '',
                     clubId: ''
                 },
-                clubs: [
-
-                ],
+                club: [],
                 manager: {
                     address: '',
                     clubId: '',
+                    jobNumber: '',
+                    name: '',
+                    nickName: '',
+                    password: '',
+                    phone: ''
+                },
+                admin: {
+                    address: '',
+                    clubId: 0,
                     jobNumber: '',
                     name: '',
                     nickName: '',
@@ -237,8 +296,12 @@
                         if (data.state == 1) {
                             for (let i = 0; i < data.data.length; i++) {
                                 let obj = data.data[i];
-                                let clubName = that.findClub(obj.clubId);
-                                obj.clubId = clubName;
+                                if (obj.clubId != 0) {
+                                    let clubName = that.findClub(obj.clubId);
+                                    obj.clubId = clubName;
+                                } else {
+                                    obj.clubId = '管理员不属于任何俱乐部'
+                                }
                                 let dateTime = getMyDate(parseInt(obj.createTime));
                                 obj.createTime = dateTime;
                                 that.tableData.push(obj)
@@ -252,11 +315,34 @@
                     }
                 });
             },
+            findClub(id) {
+                //该方法用于查询店长所属俱乐部
+                let that = this;
+                let name;
+                $.ajax({
+                    url: 'http://localhost/FD/club/findClubById',
+                    type: 'GET',
+                    data: 'id=' + id,
+                    dataType: 'json',
+                    contentType: 'application/json;charset=utf-8',
+                    async: false,
+                    success: function (data) {
+                        if (data.state == 1) {
+                            name = data.data.name
+                        } else {
+                            Message.error({
+                                message: '请检查网络是否连接'
+                            })
+                        }
+                    }
+                });
+                return name;
+            },
             //初始化查询条件
             initClub() {
                 let that = this;
                 $.ajax({
-                    url: 'http://localhost/FD/club/findAllClub.do',
+                    url: 'http://localhost/FD/club/findAllClub',
                     type: 'GET',
                     dataType: 'json',
                     contentType: 'application/json;charset=utf-8',
@@ -264,7 +350,7 @@
                         if (data.state == 1) {
                             for (let i = 0; i < data.data.length; i++) {
                                 let obj = data.data[i];
-                                that.clubs.push(obj)
+                                that.club.push(obj)
                             }
                         } else {
                             Message.error({
@@ -273,16 +359,6 @@
                         }
                     }
                 });
-            },
-            findClub(id) {
-                //参数e为俱乐部id
-                //该方法用于查询店长所属俱乐部
-                let that = this;
-                for (let i = 0; i < that.clubs.length; i++) {
-                    if (that.clubs[i].id == id) {
-                        return that.clubs[i].name;
-                    }
-                }
             },
             deleteAdmin(e) {
                 //删除店长
@@ -399,7 +475,6 @@
                 //添加店长
                 let that = this;
                 e.address = that.area;
-                //该方法用于修改店长信息
                 if (e.name == "" || e.name == null) {
                     Message.error({
                         message: '姓名不能为空'
@@ -461,6 +536,66 @@
                     }
                 });
             },
+            insertAdmin(e) {
+                //添加管理员
+                let that = this;
+                e.address = that.area;
+                if (e.name == "" || e.name == null) {
+                    Message.error({
+                        message: '姓名不能为空'
+                    })
+                    return;
+                } else if (e.jobNumber == "" || e.jobNumber == null) {
+                    Message.error({
+                        message: '工号不能为空'
+                    })
+                    return;
+                } else if (e.nickName == "" || e.nickName == null) {
+                    Message.error({
+                        message: '昵称不能为空'
+                    })
+                    return;
+                } else if (e.phone == "" || e.phone == null) {
+                    Message.error({
+                        message: '手机号不能为空'
+                    })
+                    return;
+                } else if (e.password == "" || e.password == null) {
+                    Message.error({
+                        message: '密码不能为空'
+                    })
+                    return;
+                } else if (e.password.length < 6) {
+                    Message.error({
+                        message: '密码长度不能小于6位'
+                    })
+                    return;
+                } else if (e.address == "" || e.address == null) {
+                    Message.error({
+                        message: '地址不能为空'
+                    })
+                    return;
+                }
+                $.ajax({
+                    url: 'http://localhost/FD/manager/addManager.do',
+                    type: 'POST',
+                    data: JSON.stringify(e),
+                    dataType: '',
+                    contentType: 'application/json;charset=utf-8',
+                    success: function (data) {
+                        if (data.state == 1) {
+                            Message.success({
+                                message: '添加成功',
+                                onClose: (that.$router.go("managerList"))
+                            })
+                        } else {
+                            Message.error({
+                                message: data.message
+                            })
+                        }
+                    }
+                });
+            },
             handleChange(value, res) {
                 let that = this;
                 let province;
@@ -483,10 +618,6 @@
                 }
                 that.area = province + city + district
             },
-            openAdd() {
-                let that = this;
-                that.addManager = true;
-            },
             soltManager(jobNumber, username) {
                 let that = this;
                 $.ajax({
@@ -503,7 +634,44 @@
                             that.tableData = []
                             for (let i = 0; i < data.data.length; i++) {
                                 let obj = data.data[i];
-                                that.tableData.push(obj);
+                                if (obj.clubId != 0) {
+                                    let clubName = that.findClub(obj.clubId);
+                                    obj.clubId = clubName;
+                                } else {
+                                    obj.clubId = '管理员不属于任何俱乐部'
+                                }
+                                let dateTime = getMyDate(parseInt(obj.createTime));
+                                obj.createTime = dateTime;
+                                that.tableData.push(obj)
+                            }
+                        } else {
+                            Message.error({
+                                message: data.message
+                            })
+                        }
+                    }
+
+                })
+            },
+            soltAdmin() {
+                let that = this;
+                $.ajax({
+                    url: 'http://localhost/FD/manager/findAdmin.do',
+                    type: 'GET',
+                    dataType: 'json',
+                    contentType: false,
+                    success: function (data) {
+                        if (data.state == 1) {
+                            Message.success({
+                                message: "查询成功"
+                            })
+                            that.tableData = []
+                            for (let i = 0; i < data.data.length; i++) {
+                                let obj = data.data[i];
+                                obj.clubId = '管理员不属于任何俱乐部'
+                                let dateTime = getMyDate(parseInt(obj.createTime));
+                                obj.createTime = dateTime;
+                                that.tableData.push(obj)
                             }
                         } else {
                             Message.error({

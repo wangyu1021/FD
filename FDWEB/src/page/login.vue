@@ -85,6 +85,7 @@
                                 type: "success"
                             })
                             sessionStorage.setItem("token",data.data)
+                            sessionStorage.setItem("loginId",e.loginId);
                             that.$router.push("/homePage")
                         } else {
                             Message({

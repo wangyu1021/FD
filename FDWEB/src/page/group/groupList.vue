@@ -154,11 +154,25 @@
             //根据id查询俱乐部名字
             findClubName(id) {
                 let that = this;
-                for (let i = 0; i < that.club.length; i++) {
-                    if (that.club[i].id == id) {
-                        return that.club[i].name;
+                let name;
+                $.ajax({
+                    url: 'http://localhost/FD/club/findClubById',
+                    type: 'GET',
+                    data:'id='+id,
+                    dataType: 'json',
+                    contentType: 'application/json;charset=utf-8',
+                    async:false,
+                    success: function (data) {
+                        if (data.state == 1) {
+                            name=data.data.name
+                        } else {
+                            Message.error({
+                                message: '请检查网络是否连接'
+                            })
+                        }
                     }
-                }
+                });
+                return name;
             },
             resetSolt() {
                 let that = this;

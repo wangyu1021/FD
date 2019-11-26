@@ -43,7 +43,8 @@
           </el-submenu>
           <el-submenu index="8">
             <template slot="title"><img src="../image/PK.png"
-                                        style="width: 18px;height: 18.4px;margin: 0px 5px;"/>PK管理</template>
+                                        style="width: 18px;height: 18.4px;margin: 0px 5px;"/>PK管理
+            </template>
             <el-menu-item-group>
               <el-menu-item index="pkList">PK列表</el-menu-item>
               <el-menu-item index="pkAudit">PK审核</el-menu-item>
@@ -63,7 +64,8 @@
           <el-dropdown trigger="click">
             <i class="el-icon-s-check" style="margin-right: 15px"></i>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>修改密码</el-dropdown-item>
+              <el-dropdown-item><a href="http://localhost:8080/#/updatePassword"
+                                   style="color: #606266;text-decoration:none">修改密码</a></el-dropdown-item>
               <el-dropdown-item><span @click="exitUser">退出</span></el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -74,6 +76,7 @@
         </el-main>
       </el-container>
     </el-container>
+
   </div>
 </template>
 <script>
@@ -81,12 +84,14 @@
         data() {
             return {}
         },
-        created(){
-          this.exitUser()
-        },
         methods: {
             exitUser() {
                 let that = this;
+                sessionStorage.removeItem("token")
+                sessionStorage.removeItem("loginId")
+                that.$router.go("/")
+                // window.location.replace("http://localhost:8080/#/")
+
             }
         }
     }

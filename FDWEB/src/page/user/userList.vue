@@ -321,7 +321,6 @@
                                 let obj=data.data[i];
                                 that.options.push(obj)
                             }
-                            console.log(that.options)
                         }else{
                             Message.error({
                                 message:data.message
@@ -332,8 +331,31 @@
             },
             //查询用户
             soltUser(phone,rId){
-                console.log(phone)
-                console.log(rId)
+                let that = this;
+                $.ajax({
+                    url: 'http://localhost/FD/user/findUserByRP.do',
+                    type: 'POST',
+                    data:'roleId='+rId+"&phone="+phone,
+                    dataType: 'json',
+                    success: function (data) {
+                        if(data.statue=1){
+                            that.tableData=[]
+                            for(let i=0;i<data.data.length;i++){
+                                let obj = data.data[i];
+                                if (obj.captain == 1) {
+                                    obj.captain = '是'
+                                } else {
+                                    obj.captain = '否'
+                                }
+                                that.tableData.push(obj)
+                            }
+                        }else{
+                            Message.error({
+                                message:data.message
+                            })
+                        }
+                    }
+                });
             }
         }
     }
