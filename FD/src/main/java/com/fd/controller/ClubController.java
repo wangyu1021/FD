@@ -69,7 +69,7 @@ public class ClubController {
 
 
 
-    @RequestMapping("/ ")
+    @RequestMapping("/findClubByCondition")
     @ResponseBody
     @ApiOperation(value = "根据条件查询俱乐部", httpMethod = "POST", response = JsonResult.class)
     public JsonResult findClubByCondition(@RequestBody ClubConditionBo clubConditionBo){

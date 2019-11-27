@@ -2,13 +2,14 @@ package com.fd.service;
 
 import java.util.List;
 
+import com.fd.bo.PasswordBo;
 import com.fd.pojo.Manager;
 
 public interface ManagerService {
 
 	String login(String loginId, String password);
 
-	void updatePassword(String loginId, String password, String oldPassword);
+	void updatePassword(PasswordBo passwordBo);
 
 	void addManager(Manager Manager);
 
@@ -22,4 +23,6 @@ public interface ManagerService {
 
 	List<Manager> findManagerByJobNumOrName(String name, String jobNumber);
 
+
+	List<Manager> findAdmin();
 }

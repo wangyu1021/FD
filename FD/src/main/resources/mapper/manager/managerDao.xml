@@ -57,5 +57,11 @@
 	<update id="updateToken">
 		update manager set token=#{token} where login_id=#{loginId}
 	</update>
+	<select id="findAdmin" resultType="com.fd.pojo.Manager">
+		select id,job_number as
+		jobNumber,name,phone,nick_name as nickName,login_id as
+		loginId,password,address,club_id as clubId,create_time as createTime
+		from manager where club_id=0
+	</select>
 </mapper>
 

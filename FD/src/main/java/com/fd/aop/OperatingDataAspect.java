@@ -1,10 +1,7 @@
 package com.fd.aop;
 
 
-import com.alibaba.druid.support.http.util.IPAddress;
-import com.alibaba.fastjson.JSON;
 import com.fd.annotation.ServerLog;
-import com.fd.pojo.Manager;
 import com.fd.pojo.Operation;
 import com.fd.service.AdminService;
 import com.fd.vo.ManagerVo;
@@ -14,22 +11,17 @@ import javassist.bytecode.LocalVariableAttribute;
 import javassist.bytecode.MethodInfo;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.core.DefaultParameterNameDiscoverer;
-import org.springframework.core.ParameterNameDiscoverer;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.HashMap;
@@ -37,7 +29,7 @@ import java.util.Map;
 
 @Component
 @Aspect
-public class OperatingData {
+public class OperatingDataAspect {
     private static String name;
     @Resource
     private AdminService adminService;
@@ -67,6 +59,7 @@ public class OperatingData {
             Map<String, Object> map = getFieldsNameValueMap(proceedingJoinPoint);
             ManagerVo vo = (ManagerVo) map.get("password");
             name = vo.getLoginId();
+            request.getSession().setAttribute("name",name);
         }
         try {
             Object proceed = proceedingJoinPoint.proceed();

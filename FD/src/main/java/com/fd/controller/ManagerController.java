@@ -3,6 +3,7 @@ package com.fd.controller;
 import java.util.List;
 
 import com.fd.annotation.ServerLog;
+import com.fd.bo.PasswordBo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -49,10 +50,10 @@ public class ManagerController {
 	@RequestMapping("updatePassword.do")
 	@ResponseBody
 	@ApiOperation(value = "修改密码", httpMethod = "POST", response = JsonResult.class)
-	public JsonResult updatePassword(String loginId,String newPassword,String oldPassword) {
+	public JsonResult updatePassword(@RequestBody PasswordBo passwordBo) {
 		JsonResult json=new JsonResult();
 		try {
-			managerService.updatePassword(loginId,newPassword,oldPassword);
+			managerService.updatePassword(passwordBo);
 			json.setState(1);
 			json.setMessage("修改成功");
 		} catch (Exception e) {
@@ -103,6 +104,22 @@ public class ManagerController {
 		JsonResult json=new JsonResult();
 		try {
 			List<Manager> list=managerService.findManager();
+			json.setState(1);
+			json.setData(list);
+		} catch (Exception e) {
+			json.setState(0);
+			json.setMessage(e.getMessage());
+		}
+		return json;
+	}
+
+	@RequestMapping("findAdmin.do")
+	@ResponseBody
+	@ApiOperation(value = "查询所有管理员", httpMethod = "GET", response = JsonResult.class)
+	public JsonResult findAdmin() {
+		JsonResult json=new JsonResult();
+		try {
+			List<Manager> list=managerService.findAdmin();
 			json.setState(1);
 			json.setData(list);
 		} catch (Exception e) {

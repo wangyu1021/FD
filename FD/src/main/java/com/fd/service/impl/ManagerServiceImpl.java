@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.List;
 
+import com.fd.bo.PasswordBo;
 import com.fd.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,9 @@ public class ManagerServiceImpl implements ManagerService{
 		if(Manager==null) {
 			throw new RuntimeException("该账户不存在");
 		}
+		if(Manager.getClubId()!=0){
+			throw new RuntimeException("该账户不是管理员");
+		}
 		try {
 			if(!MD5Encoder.validPassword(password, Manager.getPassword())){
 				throw new RuntimeException("密码错误");
@@ -42,20 +46,20 @@ public class ManagerServiceImpl implements ManagerService{
 		return token;
 	}
 
-	public void updatePassword(String loginId, String newPassword,String oldPassword) {
-		Manager Manager=managerDao.findLoginId(loginId);
+	public void updatePassword(PasswordBo passwordBo) {
+		Manager Manager=managerDao.findLoginId(passwordBo.getLoginId());
 		if(Manager==null) {
 			throw new RuntimeException("该账户不存在");
 		}
 		try {
-			if(!MD5Encoder.validPassword(oldPassword, Manager.getPassword())) {
+			if(!MD5Encoder.validPassword(passwordBo.getOldPassword(), Manager.getPassword())) {
 				throw new RuntimeException("旧密码错误");
 			}
-		    else if(MD5Encoder.validPassword(newPassword, Manager.getPassword())){
+		    else if(MD5Encoder.validPassword(passwordBo.getNewPassword(), Manager.getPassword())){
 				throw new RuntimeException("旧密码和新密码不能一样");
 			}else {
-				String pwd = MD5Encoder.getEncryptedPwd(newPassword);
-				managerDao.updatePassword(loginId,pwd);
+				String pwd = MD5Encoder.getEncryptedPwd(passwordBo.getNewPassword());
+				managerDao.updatePassword(passwordBo.getLoginId(),pwd);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -113,6 +117,10 @@ public class ManagerServiceImpl implements ManagerService{
 			throw new RuntimeException("没有这个店长");
 		}
 		return list;
+	}
+
+	public List<Manager> findAdmin() {
+		return managerDao.findAdmin();
 	}
 
 }
