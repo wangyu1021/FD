@@ -110,7 +110,7 @@
             initTable() {
                 let that = this;
                 $.ajax({
-                    url: 'http://localhost/FD/pk/findAllPkAudit',
+                    url: 'https://www.orchardteam.com/FD/pk/findAllPkAudit',
                     type: 'GET',
                     dataType: 'json',
                     contentType: 'application/json;charset=utf-8',
@@ -136,7 +136,7 @@
                 let that = this;
                 let motionType;
                 $.ajax({
-                    url: 'http://localhost/FD/motionType/findMotionTypeById',
+                    url: 'https://www.orchardteam.com/FD/motionType/findMotionTypeById',
                     type: 'GET',
                     data: 'id=' + id,
                     dataType: 'json',
@@ -200,9 +200,8 @@
                     status: 3,
                     timer: new Date(obj.timer)
                 };
-                console.log(pkBo)
                 $.ajax({
-                    url: 'http://localhost/FD/pk/addPk',
+                    url: 'https://www.orchardteam.com/FD/pk/addPk',
                     type: 'POST',
                     data: JSON.stringify(pkBo),
                     dataType: 'json',
@@ -228,7 +227,7 @@
                     return;
                 }
                 $.ajax({
-                    url: 'http://localhost/FD/pk/addReason',
+                    url: 'https://www.orchardteam.com/FD/pk/addReason',
                     type: 'GET',
                     data: 'auditId=' + that.auditId + "&reason=" + that.reject,
                     dataType: 'json',
@@ -251,7 +250,7 @@
                     status:status
                 }
                 $.ajax({
-                    url: 'http://localhost/FD/pk/updatePkAuditStatus',
+                    url: 'https://www.orchardteam.com/FD/pk/updatePkAuditStatus',
                     type: 'POST',
                     data: JSON.stringify(form),
                     dataType: 'json',
@@ -275,7 +274,7 @@
                 let that = this;
                 let motionTypeId;
                 $.ajax({
-                    url: 'http://localhost/FD/motionType/findMotionTypeByName',
+                    url: 'https://www.orchardteam.com/FD/motionType/findMotionTypeByName',
                     type: 'GET',
                     data: 'name=' + name,
                     dataType: 'json',
@@ -296,7 +295,7 @@
                 let that = this;
                 let reason;
                 $.ajax({
-                    url: 'http://localhost/FD/pk/findRejectByAuditId',
+                    url: 'https://www.orchardteam.com/FD/pk/findRejectByAuditId',
                     data: 'auditId=' + id,
                     type: 'GET',
                     dataType: 'json',

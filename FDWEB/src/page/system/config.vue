@@ -132,7 +132,7 @@
             initTable() {
                 let that = this;
                 $.ajax({
-                    url: 'http://localhost/FD/admin/findAllConfig',
+                    url: 'https://www.orchardteam.com/FD/admin/findAllConfig',
                     type: 'GET',
                     dataType: 'json',
                     contentType: 'application/json;charset=-utf-8',
@@ -156,7 +156,7 @@
             deleteConfig(id) {
                 let that = this;
                 $.ajax({
-                    url: 'http://localhost/FD/admin/deleteConfigById',
+                    url: 'https://www.orchardteam.com/FD/admin/deleteConfigById',
                     type: 'GET',
                     data: 'id=' + id,
                     dataType: 'json',
@@ -180,7 +180,7 @@
                 let that = this;
                 that.updateForm = true;
                 $.ajax({
-                    url: 'http://localhost/FD/admin/findConfigById',
+                    url: 'https://www.orchardteam.com/FD/admin/findConfigById',
                     type: 'GET',
                     data: 'id=' + id,
                     dataType: 'json',
@@ -206,7 +206,7 @@
                     extra: form.extra
                 }
                 $.ajax({
-                    url: 'http://localhost/FD/admin/updateConfigById',
+                    url: 'https://www.orchardteam.com/FD/admin/updateConfigById',
                     type: 'POST',
                     data: JSON.stringify(configBo),
                     dataType: 'json',
@@ -234,7 +234,7 @@
                     extra: form.extra
                 }
                 $.ajax({
-                    url: 'http://localhost/FD/admin/addConfig',
+                    url: 'https://www.orchardteam.com/FD/admin/addConfig',
                     type: 'POST',
                     data: JSON.stringify(config),
                     dataType: 'json',

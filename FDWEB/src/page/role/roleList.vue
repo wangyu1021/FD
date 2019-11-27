@@ -135,7 +135,7 @@
             initRole() {
                 let that = this;
                 $.ajax({
-                    url: "http://localhost/FD/role/findAllRole.do",
+                    url: "https://www.orchardteam.com/FD/role/findAllRole.do",
                     type: 'GET',
                     dataType: "json",
                     contentType: 'application/json;charset=UTF-8',
@@ -177,7 +177,7 @@
             initPermision() {
                 let that = this;
                 $.ajax({
-                    url: "http://localhost/FD/role/findPermission.do",
+                    url: "https://www.orchardteam.com/FD/role/findPermission.do",
                     type: 'GET',
                     dataType: "json",
                     contentType: 'application/json;charset=UTF-8',
@@ -200,7 +200,7 @@
             updatePermission(pId, rId) {
                 let that = this;
                 $.ajax({
-                    url: "http://localhost/FD/role/updatePermission.do",
+                    url: "https://www.orchardteam.com/FD/role/updatePermission.do",
                     type: 'GET',
                     data: 'roleId=' + rId + "&permissionId=" + pId,
                     dataType: 'json',
@@ -217,7 +217,7 @@
             deleteRole(rId) {
                 let that = this;
                 $.ajax({
-                    url: "http://localhost/FD/role/deleteRole.do",
+                    url: "https://www.orchardteam.com/FD/role/deleteRole.do",
                     type: 'GET',
                     data: 'roleId=' + rId,
                     dataType: 'json',
@@ -240,7 +240,7 @@
                 let that = this;
                 that.dialogFormVisible = true;
                 $.ajax({
-                    url: 'http://localhost/FD/role/findRoleById.do',
+                    url: 'https://www.orchardteam.com/FD/role/findRoleById.do',
                     type: 'GET',
                     data: 'id=' + e,
                     dataType: 'json',
@@ -256,7 +256,7 @@
             updateRole(e) {
                 let that = this;
                 $.ajax({
-                    url: 'http://localhost/FD/role/updateRoleById.do',
+                    url: 'https://www.orchardteam.com/FD/role/updateRoleById.do',
                     type: 'GET',
                     data: 'id=' + e.id + "&name=" + e.name,
                     dataType: 'json',
@@ -284,7 +284,7 @@
                     return
                 }
                 $.ajax({
-                    url: 'http://localhost/FD/role/addRole.do',
+                    url: 'https://www.orchardteam.com/FD/role/addRole.do',
                     type: 'GET',
                     data: "name=" + role.name,
                     dataType: 'json',

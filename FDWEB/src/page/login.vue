@@ -70,7 +70,7 @@
                 let that = this;
                 let data = {"loginId": e.loginId, "password": e.password}
                 $.ajax({
-                    url: "http://localhost/FD/manager/login.do",
+                    url: "https://www.orchardteam.com/FD/manager/login.do",
                     type: 'POST',
                     data: JSON.stringify(data),
                     dataType: "json",

@@ -167,7 +167,7 @@
             intiMotionType() {
                 let that = this;
                 $.ajax({
-                    url: 'http://localhost/FD/motionType/findAllMotionType',
+                    url: 'https://www.orchardteam.com/FD/motionType/findAllMotionType',
                     type: 'GET',
                     dataType: 'json',
                     async: false,
@@ -188,7 +188,7 @@
             initTable() {
                 let that = this;
                 $.ajax({
-                    url: 'http://localhost/FD/team/findAllTeam',
+                    url: 'https://www.orchardteam.com/FD/team/findAllTeam',
                     type: 'GET',
                     dataType: 'json',
                     contentType: 'application/json;charset=utf-8',
@@ -229,7 +229,7 @@
                     status = 0
                 }
                 $.ajax({
-                    url: 'http://localhost/FD/team/updateStatus',
+                    url: 'https://www.orchardteam.com/FD/team/updateStatus',
                     type: 'GET',
                     data: "id=" + id + "&status=" + status,
                     dataType: 'json',
@@ -250,7 +250,7 @@
                 let that = this;
                 let motionType;
                 $.ajax({
-                    url: 'http://localhost/FD/motionType/findMotionTypeById',
+                    url: 'https://www.orchardteam.com/FD/motionType/findMotionTypeById',
                     type: 'GET',
                     data: 'id=' + id,
                     dataType: 'json',
@@ -277,7 +277,7 @@
                 }
                 that.dialogForm = true;
                 $.ajax({
-                    url: 'http://localhost/FD/team/findTeamById',
+                    url: 'https://www.orchardteam.com/FD/team/findTeamById',
                     type: 'GET',
                     data: "id=" + id,
                     dataType: 'json',
@@ -319,7 +319,7 @@
                     motionType: that.motionTypeId,
                 }
                 $.ajax({
-                    url: 'http://localhost/FD/team/findTeamByCondition',
+                    url: 'https://www.orchardteam.com/FD/team/findTeamByCondition',
                     type: 'POST',
                     data: JSON.stringify(form),
                     dataType: 'json',

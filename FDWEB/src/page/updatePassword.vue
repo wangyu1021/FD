@@ -6,10 +6,10 @@
       width="40%">
       <el-form ref="form" :model="form" label-width="80px">
         <el-form-item label="旧密码:">
-          <el-input v-model="form.oldPassword"></el-input>
+          <el-input type="password" v-model="form.oldPassword"></el-input>
         </el-form-item>
         <el-form-item label="新密码:">
-          <el-input v-model="form.newPassword"></el-input>
+          <el-input type="password" v-model="form.newPassword"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="updatePassword(form)">修改</el-button>
@@ -45,7 +45,7 @@
                 }
                 console.log(data)
                 $.ajax({
-                    url: "http://localhost/FD/manager/updatePassword.do",
+                    url: "https://www.orchardteam.com/FD/manager/updatePassword.do",
                     type: 'POST',
                     data: JSON.stringify(data),
                     dataType: "json",

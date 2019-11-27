@@ -212,7 +212,7 @@
             intiMotionType() {
                 let that = this;
                 $.ajax({
-                    url: 'http://localhost/FD/motionType/findAllMotionType',
+                    url: 'https://www.orchardteam.com/FD/motionType/findAllMotionType',
                     type: 'GET',
                     dataType: 'json',
                     async: false,
@@ -233,7 +233,7 @@
             initTime() {
                 let that = this;
                 $.ajax({
-                    url: 'http://localhost/FD/time/findAllTime',
+                    url: 'https://www.orchardteam.com/FD/time/findAllTime',
                     type: 'GET',
                     dataType: 'json',
                     async: false,
@@ -254,7 +254,7 @@
             initTable() {
                 let that = this;
                 $.ajax({
-                    url: 'http://localhost/FD/club/findAllClub',
+                    url: 'https://www.orchardteam.com/FD/club/findAllClub',
                     type: 'GET',
                     dataType: 'json',
                     async: false,
@@ -283,7 +283,7 @@
                 let that = this;
                 let time;
                 $.ajax({
-                    url: 'http://localhost/FD/time/findTimeById',
+                    url: 'https://www.orchardteam.com/FD/time/findTimeById',
                     type: 'GET',
                     data: 'id=' + id,
                     dataType: 'json',
@@ -304,7 +304,7 @@
                 let that = this;
                 let motionType;
                 $.ajax({
-                    url: 'http://localhost/FD/motionType/findMotionTypeById',
+                    url: 'https://www.orchardteam.com/FD/motionType/findMotionTypeById',
                     type: 'GET',
                     data: 'id=' + id,
                     dataType: 'json',
@@ -334,7 +334,7 @@
                     state.status = 0
                 }
                 $.ajax({
-                    url: 'http://localhost/FD/club/updateStatus',
+                    url: 'https://www.orchardteam.com/FD/club/updateStatus',
                     type: 'POST',
                     data: JSON.stringify(state),
                     dataType: 'json',
@@ -364,7 +364,7 @@
             findStatus(id) {
                 let status;
                 $.ajax({
-                    url: 'http://localhost/FD/club/findStatus',
+                    url: 'https://www.orchardteam.com/FD/club/findStatus',
                     type: 'GET',
                     data: 'id=' + id,
                     dataType: 'json',
@@ -392,7 +392,7 @@
             initForm(id) {
                 let that = this;
                 $.ajax({
-                    url: 'http://localhost/FD/club/findClubById',
+                    url: 'https://www.orchardteam.com/FD/club/findClubById',
                     type: 'GET',
                     data: 'id=' + id,
                     dataType: 'json',
@@ -412,7 +412,7 @@
             updateClub(form) {
                 let that = this;
                 $.ajax({
-                    url: 'http://localhost/FD/club/updateClubById',
+                    url: 'https://www.orchardteam.com/FD/club/updateClubById',
                     type: 'POST',
                     data: JSON.stringify(form),
                     dataType: 'json',
@@ -459,7 +459,7 @@
                     area: that.soltArea
                 }
                 $.ajax({
-                    url: 'http://localhost/FD/club/findClubByCondition',
+                    url: 'https://www.orchardteam.com/FD/club/findClubByCondition',
                     type: 'POST',
                     data: JSON.stringify(form),
                     dataType: 'json',
@@ -490,7 +490,7 @@
             deleteClub(id) {
                 let that = this;
                 $.ajax({
-                    url: 'http://localhost/FD/club/deleteClubById',
+                    url: 'https://www.orchardteam.com/FD/club/deleteClubById',
                     type: 'GET',
                     data: 'id=' + id,
                     dataType: 'json',
@@ -514,7 +514,7 @@
                 let that = this;
                 that.dialogClubSite=true;
                 $.ajax({
-                    url: 'http://localhost/FD/club/findClubSiteById',
+                    url: 'https://www.orchardteam.com/FD/club/findClubSiteById',
                     type: 'GET',
                     data: 'id=' + id,
                     dataType: 'json',

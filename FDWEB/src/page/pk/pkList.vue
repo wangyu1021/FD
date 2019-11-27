@@ -194,7 +194,7 @@
             intiMotionType() {
                 let that = this;
                 $.ajax({
-                    url: 'http://localhost/FD/motionType/findAllMotionType',
+                    url: 'https://www.orchardteam.com/FD/motionType/findAllMotionType',
                     type: 'GET',
                     dataType: 'json',
                     async: false,
@@ -215,7 +215,7 @@
             initTable() {
                 let that = this;
                 $.ajax({
-                    url: 'http://localhost/FD/pk/findAllPk',
+                    url: 'https://www.orchardteam.com/FD/pk/findAllPk',
                     type: 'GET',
                     dataType: 'json',
                     contentType: 'application/json;charset=utf-8',
@@ -286,7 +286,7 @@
                 let that = this;
                 let motionType;
                 $.ajax({
-                    url: 'http://localhost/FD/motionType/findMotionTypeById',
+                    url: 'https://www.orchardteam.com/FD/motionType/findMotionTypeById',
                     type: 'GET',
                     data: 'id=' + id,
                     dataType: 'json',
@@ -306,7 +306,7 @@
             findPkById(id) {
                 let that = this;
                 $.ajax({
-                    url: 'http://localhost/FD/pk/findPkById',
+                    url: 'https://www.orchardteam.com/FD/pk/findPkById',
                     type: 'GET',
                     data: "id=" + id,
                     dataType: 'json',
@@ -346,7 +346,7 @@
                     victoryTeam:that.victoryTeam
                 }
                 $.ajax({
-                    url: 'http://localhost/FD/pk/findPkByCondition',
+                    url: 'https://www.orchardteam.com/FD/pk/findPkByCondition',
                     type: 'POST',
                     data: JSON.stringify(form),
                     dataType: 'json',
@@ -386,7 +386,7 @@
             addVictoryTeam(id) {
                 let that = this;
                 $.ajax({
-                    url: 'http://localhost/FD/pk/addVictoryTeam',
+                    url: 'https://www.orchardteam.com/FD/pk/addVictoryTeam',
                     type: 'GET',
                     data: "id=" + id + "&victoryTeam=" + that.victory,
                     dataType: 'json',
@@ -410,7 +410,7 @@
             statusUtil(form) {
                 let that = this;
                 $.ajax({
-                    url: 'http://localhost/FD/pk/updatePkStatus',
+                    url: 'https://www.orchardteam.com/FD/pk/updatePkStatus',
                     type: 'POST',
                     data: JSON.stringify(form),
                     dataType: 'json',

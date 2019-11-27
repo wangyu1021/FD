@@ -63,7 +63,7 @@
             initTableData() {
                 let that = this;
                 $.ajax({
-                    url: 'http://localhost/FD/admin/findAllOperation',
+                    url: 'https://www.orchardteam.com/FD/admin/findAllOperation',
                     type: 'GET',
                     dataType: 'json',
                     contentType: 'application/json;charset=-utf-8',

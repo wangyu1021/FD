@@ -107,7 +107,7 @@
             initTable() {
                 let that = this;
                 $.ajax({
-                    url: 'http://localhost/FD/group/findAllGroup.do',
+                    url: 'https://www.orchardteam.com/FD/group/findAllGroup.do',
                     type: 'GET',
                     dataType: 'json',
                     contentType: 'application/json;charset=utf-8',
@@ -133,7 +133,7 @@
             initClub() {
                 let that = this;
                 $.ajax({
-                    url: 'http://localhost/FD/club/findAllClub.do',
+                    url: 'https://www.orchardteam.com/FD/club/findAllClub.do',
                     type: 'GET',
                     dataType: 'json',
                     contentType: 'application/json;charset=utf-8',
@@ -156,7 +156,7 @@
                 let that = this;
                 let name;
                 $.ajax({
-                    url: 'http://localhost/FD/club/findClubById',
+                    url: 'https://www.orchardteam.com/FD/club/findClubById',
                     type: 'GET',
                     data:'id='+id,
                     dataType: 'json',
@@ -189,7 +189,7 @@
                     return;
                 }
                 $.ajax({
-                    url: 'http://localhost/FD/group/findGroupByClub.do',
+                    url: 'https://www.orchardteam.com/FD/group/findGroupByClub.do',
                     type: 'GET',
                     data:'clubId='+clubID,
                     dataType: 'json',

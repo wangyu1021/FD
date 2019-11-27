@@ -189,7 +189,7 @@
             initTable() {
                 let that = this;
                 $.ajax({
-                    url: 'http://localhost/FD/user/findAllUser.do',
+                    url: 'https://www.orchardteam.com/FD/user/findAllUser.do',
                     type: 'GET',
                     data: '',
                     dataType: 'json',
@@ -286,7 +286,7 @@
                 let that = this;
                 that.dialogUser = true;
                 $.ajax({
-                    url: 'http://localhost/FD/user/findUserById.do',
+                    url: 'https://www.orchardteam.com/FD/user/findUserById.do',
                     type: 'GET',
                     data: 'id=' + id,
                     dataType: 'json',
@@ -312,7 +312,7 @@
             initOptions() {
                 let that = this;
                 $.ajax({
-                    url: 'http://localhost/FD/role/findAllRole.do',
+                    url: 'https://www.orchardteam.com/FD/role/findAllRole.do',
                     type: 'GET',
                     dataType: 'json',
                     success: function (data) {
@@ -333,7 +333,7 @@
             soltUser(phone,rId){
                 let that = this;
                 $.ajax({
-                    url: 'http://localhost/FD/user/findUserByRP.do',
+                    url: 'https://www.orchardteam.com/FD/user/findUserByRP.do',
                     type: 'POST',
                     data:'roleId='+rId+"&phone="+phone,
                     dataType: 'json',

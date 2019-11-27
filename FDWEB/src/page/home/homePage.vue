@@ -187,7 +187,7 @@
                 let that = this;
                 let lastNum;
                 $.ajax({
-                    url:'http://localhost/FD/pk/findLastDayPk',
+                    url:'https://www.orchardteam.com/FD/pk/findLastDayPk',
                     type:'GET',
                     dataType:'json',
                     contentType:'application/json;charset=utf-8',
@@ -202,7 +202,7 @@
                 let that = this;
                 let todayNum;
                 $.ajax({
-                    url:'http://localhost/FD/pk/findTodayPk',
+                    url:'https://www.orchardteam.com/FD/pk/findTodayPk',
                     type:'GET',
                     dataType:'json',
                     contentType:'application/json;charset=utf-8',
@@ -260,7 +260,7 @@
                 let that = this;
                 let lastNum;
                 $.ajax({
-                    url:'http://localhost/FD/club/findLastClubNum',
+                    url:'https://www.orchardteam.com/FD/club/findLastClubNum',
                     type:'GET',
                     dataType:'json',
                     contentType:'application/json;charset=utf-8',
@@ -275,7 +275,7 @@
                 let that = this;
                 let todayNum;
                 $.ajax({
-                    url:'http://localhost/FD/club/findTodayClubNum',
+                    url:'https://www.orchardteam.com/FD/club/findTodayClubNum',
                     type:'GET',
                     dataType:'json',
                     contentType:'application/json;charset=utf-8',
@@ -333,7 +333,7 @@
                 let that = this;
                 let lastNum;
                 $.ajax({
-                    url:'http://localhost/FD/team/findLastNum',
+                    url:'https://www.orchardteam.com/FD/team/findLastNum',
                     type:'GET',
                     dataType:'json',
                     contentType:'application/json;charset=utf-8',
@@ -348,7 +348,7 @@
                 let that = this;
                 let todayNum;
                 $.ajax({
-                    url:'http://localhost/FD/team/findTodayNum',
+                    url:'https://www.orchardteam.com/FD/team/findTodayNum',
                     type:'GET',
                     dataType:'json',
                     contentType:'application/json;charset=utf-8',

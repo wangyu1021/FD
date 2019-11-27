@@ -285,7 +285,7 @@
                 //该方法用于查询店长信息
                 let that = this;
                 $.ajax({
-                    url: "http://localhost/FD/manager/findManager.do",
+                    url: "https://www.orchardteam.com/FD/manager/findManager.do",
                     type: 'GET',
                     dataType: "json",
                     async: false,
@@ -320,7 +320,7 @@
                 let that = this;
                 let name;
                 $.ajax({
-                    url: 'http://localhost/FD/club/findClubById',
+                    url: 'https://www.orchardteam.com/FD/club/findClubById',
                     type: 'GET',
                     data: 'id=' + id,
                     dataType: 'json',
@@ -342,7 +342,7 @@
             initClub() {
                 let that = this;
                 $.ajax({
-                    url: 'http://localhost/FD/club/findAllClub',
+                    url: 'https://www.orchardteam.com/FD/club/findAllClub',
                     type: 'GET',
                     dataType: 'json',
                     contentType: 'application/json;charset=utf-8',
@@ -364,7 +364,7 @@
                 //删除店长
                 let that = this;
                 $.ajax({
-                    url: "http://localhost/FD/manager/deleteManagerById.do",
+                    url: "https://www.orchardteam.com/FD/manager/deleteManagerById.do",
                     type: 'GET',
                     data: "id=" + e,
                     dataType: "json",
@@ -388,7 +388,7 @@
                 that.dialogFormVisible = true;
                 //根据id获取店长信息
                 $.ajax({
-                    url: "http://localhost/FD/manager/findManagerById.do",
+                    url: "https://www.orchardteam.com/FD/manager/findManagerById.do",
                     type: 'GET',
                     data: 'id=' + e,
                     dataType: "json",
@@ -446,7 +446,7 @@
                 }
                 let that = this;
                 $.ajax({
-                    url: 'http://localhost/FD/manager/updateManager.do',
+                    url: 'https://www.orchardteam.com/FD/manager/updateManager.do',
                     data: JSON.stringify({
                         id: e.id,
                         address: e.address,
@@ -517,7 +517,7 @@
                     return;
                 }
                 $.ajax({
-                    url: 'http://localhost/FD/manager/addManager.do',
+                    url: 'https://www.orchardteam.com/FD/manager/addManager.do',
                     type: 'POST',
                     data: JSON.stringify(e),
                     dataType: '',
@@ -577,7 +577,7 @@
                     return;
                 }
                 $.ajax({
-                    url: 'http://localhost/FD/manager/addManager.do',
+                    url: 'https://www.orchardteam.com/FD/manager/addManager.do',
                     type: 'POST',
                     data: JSON.stringify(e),
                     dataType: '',
@@ -621,7 +621,7 @@
             soltManager(jobNumber, username) {
                 let that = this;
                 $.ajax({
-                    url: 'http://localhost/FD/manager/findManagerByJobNumOrName.do',
+                    url: 'https://www.orchardteam.com/FD/manager/findManagerByJobNumOrName.do',
                     type: 'GET',
                     data: "name=" + username + "&jobNumber=" + jobNumber,
                     dataType: 'json',
@@ -656,7 +656,7 @@
             soltAdmin() {
                 let that = this;
                 $.ajax({
-                    url: 'http://localhost/FD/manager/findAdmin.do',
+                    url: 'https://www.orchardteam.com/FD/manager/findAdmin.do',
                     type: 'GET',
                     dataType: 'json',
                     contentType: false,
