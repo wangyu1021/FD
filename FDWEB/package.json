@@ -14,7 +14,7 @@
     "element-china-area-data": "^4.1.2",
     "element-ui": "^2.12.0",
     "ginkgo-map": "^1.0.2",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "vue": "^2.5.2",
     "vue-baidu-map": "^0.21.22",
     "vue-router": "^3.0.1",
